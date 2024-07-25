@@ -3,7 +3,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const connectDB = require("./config/connectDB");
+
 const authRoutes = require("./routes/authRoutes");
+const postRoutes = require("./routes/postRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -12,6 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
