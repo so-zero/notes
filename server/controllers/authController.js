@@ -73,7 +73,19 @@ async function login(req, res, next) {
   }
 }
 
+// Logout
+async function logout(req, res, next) {
+  try {
+    res.clearCookie("access_token");
+
+    res.status(201).json("로그아웃 되었습니다.");
+  } catch (error) {
+    new HttpError("로그아웃에 실패했습니다.", 400);
+  }
+}
+
 module.exports = {
   register,
   login,
+  logout,
 };
