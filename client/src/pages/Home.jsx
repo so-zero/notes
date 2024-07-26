@@ -1,20 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 import NoteCard from "../components/NoteCard";
 import { MdPostAdd } from "react-icons/md";
 import Modal from "react-modal";
 import Notes from "./Notes";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+
   const [openModal, setOpenModal] = useState({
     isShow: false,
     type: "add",
     data: null,
   });
 
+  useEffect(() => {
+    if (currentUser === null) {
+      navigate("/login");
+    } else {
+      setUserInfo(currentUser?.rest);
+    }
+  }, []);
+
   return (
     <>
+      <Navbar userInfo={userInfo} />
       <div className="px-6 py-2 md:px-10 md:py-4 lg:px-16 mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-8 ">
+        <h1 className="mt-3 text-base uppercase">{userInfo.name}의 노트</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 ">
           <NoteCard />
         </div>
       </div>

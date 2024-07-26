@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Search from "./Search";
 
-const Navbar = () => {
+const Navbar = ({ userInfo }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const handleSearch = () => {};
@@ -26,9 +26,15 @@ const Navbar = () => {
             handleSearch={handleSearch}
           />
         </div>
-        <button className="text-xs md:text-sm border border-black rounded-md p-2 text-white bg-black hover:opacity-80 transition">
-          로그인
-        </button>
+        {userInfo ? (
+          <button className="text-xs md:text-sm border border-black rounded-md p-2 text-white bg-black hover:opacity-80 transition">
+            로그아웃
+          </button>
+        ) : (
+          <button className="text-xs md:text-sm border border-black rounded-md p-2 text-white bg-black hover:opacity-80 transition">
+            로그인
+          </button>
+        )}
       </div>
     </div>
   );
