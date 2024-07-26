@@ -1,15 +1,41 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Password from "../components/input/Password";
 import { MdEventNote } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../redux/user/userSlice";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
 
-  const handleLogin = (e) => {
+  const { error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    dispatch(loginStart());
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/auth/login`;
+
+    try {
+      const response = await axios.post(
+        URL,
+        { email, password },
+        { withCredentials: true }
+      );
+      await response.data;
+      dispatch(loginSuccess(response.data));
+      navigate("/");
+    } catch (error) {
+      dispatch(loginFailure(error.message));
+    }
   };
 
   return (
