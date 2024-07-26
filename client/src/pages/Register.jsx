@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Password from "../components/input/Password";
 import { MdEventNote } from "react-icons/md";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,8 +10,24 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
-  const handleRegister = (e) => {
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/auth/register`;
+
+    try {
+      const response = await axios.post(
+        URL,
+        { name, email, password },
+        { withCredentials: true }
+      );
+      await response.data;
+      navigate("/login");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
