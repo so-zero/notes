@@ -62,10 +62,10 @@ async function login(req, res, next) {
 
     const { password: pass, ...rest } = user._doc;
 
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(201)
-      .json({ message: "로그인 되었습니다.", rest });
+    res.cookie("access_token", token, { httpOnly: true }).status(201).json({
+      message: "로그인되었습니다.",
+      rest,
+    });
   } catch (error) {
     return next(
       new HttpError("로그인에 실패했습니다. 계정을 다시 확인해 주세요.", 400)

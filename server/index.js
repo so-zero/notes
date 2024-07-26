@@ -9,9 +9,9 @@ const postRoutes = require("./routes/postRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
