@@ -1,14 +1,42 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import Tag from "../components/input/Tag";
+import axios from "axios";
 
-const Notes = ({ onClose }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+const Notes = ({ onClose, postData, postType, getPosts }) => {
+  const [title, setTitle] = useState(postData?.title || "");
+  const [content, setContent] = useState(postData?.content || "");
+  const [tags, setTags] = useState(postData?.tags || []);
   const [error, setError] = useState(false);
 
-  const handleAddNote = () => {};
+  const addNewPost = async () => {
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/post/addNote`;
+
+    try {
+      const response = await axios.post(
+        URL,
+        { title, content, tags },
+        { withCredentials: true }
+      );
+
+      await response.data;
+
+      getPosts();
+      onClose();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const editPost = () => {};
+
+  const handleAddNote = () => {
+    if (postType === "edit") {
+      editPost();
+    } else {
+      addNewPost();
+    }
+  };
 
   return (
     <div className="relative">
@@ -47,7 +75,7 @@ const Notes = ({ onClose }) => {
         onClick={handleAddNote}
         className="mt-5 p-3 border w-full rounded-sm text-sm hover:bg-gray-300"
       >
-        등록하기
+        {postType === "edit" ? "수정하기" : "등록하기"}
       </button>
     </div>
   );

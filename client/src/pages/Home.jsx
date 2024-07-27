@@ -84,6 +84,9 @@ const Home = () => {
           onClose={() => {
             setOpenModal({ isShow: false, type: "add", data: null });
           }}
+          postData={openModal.data}
+          postType={openModal.type}
+          getPosts={getPosts}
         />
       </Modal>
     </>
