@@ -1,14 +1,26 @@
 import React from "react";
+import moment from "moment";
 import { RiPushpin2Line, RiPushpin2Fill } from "react-icons/ri";
 import { PiPencilLineFill, PiPencilSlashFill } from "react-icons/pi";
 
-const NoteCard = ({ isImportant, handleClick, handleEdit, handleDelete }) => {
+const NoteCard = ({
+  title,
+  date,
+  content,
+  tags,
+  isImportant,
+  handleClick,
+  handleEdit,
+  handleDelete,
+}) => {
   return (
     <div className="border rounded p-4 hover:shadow-md transition">
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-base font-semibold">test title</h3>
-          <span className="text-xs text-gray-500">2024-07-23</span>
+          <h3 className="text-base font-semibold">{title}</h3>
+          <span className="text-xs text-gray-500">
+            {moment(date).format("YYYY년 MM월 DD일")}
+          </span>
         </div>
         {isImportant ? (
           <RiPushpin2Fill onClick={handleClick} className="text-black" />
@@ -19,14 +31,11 @@ const NoteCard = ({ isImportant, handleClick, handleEdit, handleDelete }) => {
           />
         )}
       </div>
-      <p className="text-xs text-gray-700 mt-3">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit debitis
-        error quasi minus. Minus consequatur porro ipsum laboriosam recusandae
-        reiciendis praesentium necessitatibus quae accusamus perferendis, odio
-        consequuntur autem deserunt ipsa.
-      </p>
+      <p className="text-sm text-gray-700 mt-3">{content?.slice(0, 60)}</p>
       <div className="flex justify-between items-center mt-2">
-        <div className="text-xs text-gray-500">#test</div>
+        <div className="text-xs text-gray-500">
+          {tags.map((tag) => `#${tag} `)}
+        </div>
         <div className="flex items-center gap-2">
           <PiPencilLineFill
             onClick={handleEdit}
