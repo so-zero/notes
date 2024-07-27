@@ -41,6 +41,10 @@ const Home = () => {
     }
   };
 
+  const handleEdit = (postDetails) => {
+    setOpenModal({ isShow: true, data: postDetails, type: "edit" });
+  };
+
   return (
     <>
       <Navbar userInfo={userInfo} />
@@ -57,6 +61,9 @@ const Home = () => {
               content={post.content}
               tags={post.tags}
               isImportant={post.isImportant}
+              onEdit={() => {
+                handleEdit(post);
+              }}
             />
           ))}
         </div>

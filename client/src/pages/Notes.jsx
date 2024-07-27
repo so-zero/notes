@@ -28,7 +28,26 @@ const Notes = ({ onClose, postData, postType, getPosts }) => {
     }
   };
 
-  const editPost = () => {};
+  const editPost = async () => {
+    const postId = postData._id;
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/post/editNote/${postId}`;
+
+    try {
+      const response = await axios.post(
+        URL,
+        { title, content, tags },
+        { withCredentials: true }
+      );
+
+      await response.data;
+
+      getPosts();
+      onClose();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleAddNote = () => {
     if (postType === "edit") {

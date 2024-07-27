@@ -9,8 +9,8 @@ const NoteCard = ({
   content,
   tags,
   isImportant,
+  onEdit,
   handleClick,
-  handleEdit,
   handleDelete,
 }) => {
   return (
@@ -38,7 +38,7 @@ const NoteCard = ({
         </div>
         <div className="flex items-center gap-2">
           <PiPencilLineFill
-            onClick={handleEdit}
+            onClick={onEdit}
             className="cursor-pointer text-gray-500 hover:text-black transition"
           />
           <PiPencilSlashFill
