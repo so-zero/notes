@@ -11,7 +11,7 @@ const NoteCard = ({
   isImportant,
   onEdit,
   onDelete,
-  handleClick,
+  onImportant,
 }) => {
   return (
     <div className="border rounded p-4 hover:shadow-md transition">
@@ -23,10 +23,13 @@ const NoteCard = ({
           </span>
         </div>
         {isImportant ? (
-          <RiPushpin2Fill onClick={handleClick} className="text-black" />
+          <RiPushpin2Fill
+            onClick={onImportant}
+            className="text-black cursor-pointer"
+          />
         ) : (
           <RiPushpin2Line
-            onClick={handleClick}
+            onClick={onImportant}
             className="cursor-pointer text-gray-300 hover:text-black transition"
           />
         )}

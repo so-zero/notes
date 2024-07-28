@@ -82,6 +82,23 @@ const Home = () => {
     getPosts();
   };
 
+  const handleUpdatePin = async (postData) => {
+    const postId = postData._id;
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/post/update-pin/${postId}`;
+
+    try {
+      const response = await axios.put(
+        URL,
+        { isImportant: !postData.isImportant },
+        { withCredentials: true }
+      );
+      getPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar
@@ -108,6 +125,9 @@ const Home = () => {
                 }}
                 onDelete={() => {
                   handleDelete(post);
+                }}
+                onImportant={() => {
+                  handleUpdatePin(post);
                 }}
               />
             ))}
