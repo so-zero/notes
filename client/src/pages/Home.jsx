@@ -15,6 +15,7 @@ const Home = () => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
   const [openModal, setOpenModal] = useState({
     isShow: false,
     type: "add",
@@ -60,9 +61,34 @@ const Home = () => {
     }
   };
 
+  const handleSearchPost = async (query) => {
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/post/searchNote`;
+
+    try {
+      const response = await axios.get(URL, {
+        params: { query },
+        withCredentials: true,
+      });
+
+      setIsSearch(true);
+      setAllPosts(response.data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    getPosts();
+  };
+
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        userInfo={userInfo}
+        handleSearchPost={handleSearchPost}
+        handleClearSearch={handleClearSearch}
+      />
       <div className="px-6 py-2 md:px-10 md:py-4 lg:px-16 mx-auto">
         <h1 className="mt-3 text-base uppercase">
           ✨ {userInfo && userInfo.name}
@@ -87,7 +113,11 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <EmptyCard message={"작성된 노트가 없습니다."} />
+          <EmptyCard
+            message={
+              isSearch ? "검색결과가 없습니다." : "작성된 노트가 없습니다."
+            }
+          />
         )}
       </div>
       <button className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 flex justify-center items-center rounded-xl bg-black absolute right-10 bottom-10">

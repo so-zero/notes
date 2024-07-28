@@ -9,13 +9,22 @@ import {
 } from "../redux/user/userSlice";
 import axios from "axios";
 
-const Navbar = ({ userInfo }) => {
+const Navbar = ({ userInfo, handleSearchPost, handleClearSearch }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSearch = () => {};
+  const onSearch = () => {
+    if (searchKeyword) {
+      handleSearchPost(searchKeyword);
+    }
+  };
+
+  const onClearSearch = () => {
+    setSearchKeyword("");
+    handleClearSearch();
+  };
 
   const handleLogout = async () => {
     dispatch(logoutStart());
@@ -40,7 +49,8 @@ const Navbar = ({ userInfo }) => {
         <Search
           value={searchKeyword}
           onChange={({ target }) => setSearchKeyword(target.value)}
-          handleSearch={handleSearch}
+          onSearch={onSearch}
+          onClearSearch={onClearSearch}
         />
       </div>
       <div className="flex items-center gap-2">
@@ -48,7 +58,8 @@ const Navbar = ({ userInfo }) => {
           <Search
             value={searchKeyword}
             onChange={({ target }) => setSearchKeyword(target.value)}
-            handleSearch={handleSearch}
+            onSearch={onSearch}
+            onClearSearch={onClearSearch}
           />
         </div>
         {userInfo ? (
