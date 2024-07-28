@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Password from "../components/input/Password";
 import { MdEventNote } from "react-icons/md";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -24,8 +25,10 @@ const Register = () => {
         { withCredentials: true }
       );
       await response.data;
+      toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
+      toast.error(error.message);
       setError(error.message);
     }
   };

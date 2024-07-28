@@ -9,6 +9,7 @@ import {
   loginSuccess,
 } from "../redux/user/userSlice";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,9 +32,11 @@ const Login = () => {
         { withCredentials: true }
       );
       await response.data;
+      toast.success(response.data.message);
       dispatch(loginSuccess(response.data));
       navigate("/");
     } catch (error) {
+      toast.error(error.message);
       dispatch(loginFailure(error.message));
     }
   };

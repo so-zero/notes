@@ -8,6 +8,7 @@ import {
   logoutSuccess,
 } from "../redux/user/userSlice";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = ({ userInfo, handleSearchPost, handleClearSearch }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -33,9 +34,11 @@ const Navbar = ({ userInfo, handleSearchPost, handleClearSearch }) => {
     try {
       const response = await axios.get(URL, { withCredentials: true });
 
+      toast.success(response.data.message);
       dispatch(logoutSuccess(response.data));
       navigate("/login");
     } catch (error) {
+      toast.error(error.message);
       dispatch(logoutFailure(error.message));
     }
   };

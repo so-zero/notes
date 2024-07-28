@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import EmptyCard from "../components/EmptyCard";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -55,8 +56,10 @@ const Home = () => {
     try {
       const response = await axios.delete(URL, { withCredentials: true });
 
+      toast.success(response.data.message);
       getPosts();
     } catch (error) {
+      toast.error(error.message);
       console.log(error);
     }
   };
@@ -93,8 +96,11 @@ const Home = () => {
         { isImportant: !postData.isImportant },
         { withCredentials: true }
       );
+
+      toast.success(response.data.message);
       getPosts();
     } catch (error) {
+      toast.error(error.message);
       console.log(error);
     }
   };

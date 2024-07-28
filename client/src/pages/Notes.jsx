@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import Tag from "../components/input/Tag";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Notes = ({ onClose, postData, postType, getPosts }) => {
   const [title, setTitle] = useState(postData?.title || "");
@@ -21,9 +22,11 @@ const Notes = ({ onClose, postData, postType, getPosts }) => {
 
       await response.data;
 
+      toast.success(response.data.message);
       getPosts();
       onClose();
     } catch (error) {
+      toast.error(error.message);
       setError(error.message);
     }
   };
@@ -42,9 +45,11 @@ const Notes = ({ onClose, postData, postType, getPosts }) => {
 
       await response.data;
 
+      toast.success(response.data.message);
       getPosts();
       onClose();
     } catch (error) {
+      toast.error(error.message);
       setError(error.message);
     }
   };
