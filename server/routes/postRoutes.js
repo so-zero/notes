@@ -5,6 +5,7 @@ const {
   editNote,
   deleteNote,
   updatePin,
+  searchPost,
 } = require("../controllers/postController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -15,5 +16,6 @@ router.post("/addNote", authMiddleware, addNote);
 router.post("/editNote/:postId", authMiddleware, editNote);
 router.delete("/deleteNote/:postId", authMiddleware, deleteNote);
 router.put("/update-pin/:postId", authMiddleware, updatePin);
+router.get("/searchNote", authMiddleware, searchPost);
 
 module.exports = router;

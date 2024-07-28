@@ -131,10 +131,37 @@ async function updatePin(req, res, next) {
   }
 }
 
+// Search Note
+async function searchPost(req, res, next) {
+  try {
+    const { query } = req.query;
+
+    if (!query) {
+      return next(new HttpError("검색어를 입력해 주세요.", 404));
+    }
+
+    const searchNotes = await Post.find({
+      userId: req.user.id,
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { content: { $regex: new RegExp(query, "i") } },
+      ],
+    });
+
+    res.status(200).json({
+      message: "검색을 완료했습니다.",
+      posts: searchNotes,
+    });
+  } catch (error) {
+    return next(new HttpError(error));
+  }
+}
+
 module.exports = {
   addNote,
   editNote,
   getPosts,
   deleteNote,
   updatePin,
+  searchPost,
 };
