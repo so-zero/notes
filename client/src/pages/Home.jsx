@@ -7,6 +7,7 @@ import Notes from "./Notes";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import EmptyCard from "../components/EmptyCard";
 
 const Home = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -64,26 +65,30 @@ const Home = () => {
       <Navbar userInfo={userInfo} />
       <div className="px-6 py-2 md:px-10 md:py-4 lg:px-16 mx-auto">
         <h1 className="mt-3 text-base uppercase">
-          {userInfo && userInfo.name}의 노트
+          ✨ {userInfo && userInfo.name}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 ">
-          {allPosts.map((post) => (
-            <NoteCard
-              key={post._id}
-              title={post.title}
-              date={post.createdAt}
-              content={post.content}
-              tags={post.tags}
-              isImportant={post.isImportant}
-              onEdit={() => {
-                handleEdit(post);
-              }}
-              onDelete={() => {
-                handleDelete(post);
-              }}
-            />
-          ))}
-        </div>
+        {allPosts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 ">
+            {allPosts.map((post) => (
+              <NoteCard
+                key={post._id}
+                title={post.title}
+                date={post.createdAt}
+                content={post.content}
+                tags={post.tags}
+                isImportant={post.isImportant}
+                onEdit={() => {
+                  handleEdit(post);
+                }}
+                onDelete={() => {
+                  handleDelete(post);
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyCard message={"작성된 노트가 없습니다."} />
+        )}
       </div>
       <button className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 flex justify-center items-center rounded-xl bg-black absolute right-10 bottom-10">
         <MdPostAdd
