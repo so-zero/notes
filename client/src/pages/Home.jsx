@@ -45,6 +45,20 @@ const Home = () => {
     setOpenModal({ isShow: true, data: postDetails, type: "edit" });
   };
 
+  const handleDelete = async (data) => {
+    const postId = data._id;
+
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/post/deleteNote/${postId}`;
+
+    try {
+      const response = await axios.delete(URL, { withCredentials: true });
+
+      getPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar userInfo={userInfo} />
@@ -63,6 +77,9 @@ const Home = () => {
               isImportant={post.isImportant}
               onEdit={() => {
                 handleEdit(post);
+              }}
+              onDelete={() => {
+                handleDelete(post);
               }}
             />
           ))}

@@ -10,8 +10,8 @@ const NoteCard = ({
   tags,
   isImportant,
   onEdit,
+  onDelete,
   handleClick,
-  handleDelete,
 }) => {
   return (
     <div className="border rounded p-4 hover:shadow-md transition">
@@ -42,7 +42,7 @@ const NoteCard = ({
             className="cursor-pointer text-gray-500 hover:text-black transition"
           />
           <PiPencilSlashFill
-            onClick={handleDelete}
+            onClick={onDelete}
             className="cursor-pointer text-gray-500 hover:text-red-500 transition"
           />
         </div>
